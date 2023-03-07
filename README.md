@@ -1,7 +1,7 @@
 # N3XB
 *Naive Nostr No-KYC Exchange for Bitcoin*
 
-N3X (Naive Nostr No-KYC Exchange) is a protocol inspired by, and runs on top of Nostr. The goal is to be a simple but extensible protocol to facilitate exchanges and marketplaces in an interoperable, censorship-resistant, privacy-aware, and decentralized manner. The initial example of N3X might be a Bitcoin <=> fiat decentralized exchange protocol, codenamed N3XB, but any type of marketplace or exchange should potentially be enabled with N3X.
+N3X (Naive Nostr No-KYC Exchange) is a layer 2 protocol inspired by, and runs on top of Nostr. The goal is to be a simple but extensible protocol to facilitate exchanges and marketplaces in an interoperable, censorship-resistant, privacy-aware, and decentralized manner. The initial example of N3X might be a Bitcoin <=> fiat decentralized exchange protocol, codenamed N3XB, but any type of marketplace or exchange should potentially be enabled with N3X.
 
 ## TLDR
 
