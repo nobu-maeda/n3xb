@@ -11,10 +11,10 @@ A flow of a complete trade can look as below
 
 There are 1 note type, 2 message types, and 1 messaging scheme that n3xB defines, as can be seen above. See the respective pages for further details and specifications.
 
-### [**Maker Order Note**](/spec/maker-note/maker-note.md)
-### [**Peer Messaging**](/spec/peer-messaging/peer-messaging.md)
-### [**Take Order Message**](/spec/taker-message/taker-message.md)
-### [**Trade Response Message**](/spec/trade-response/trade-response.md)
+### [**Maker Order Note**](/specs/maker-note/maker-note.md)
+### [**Peer Messaging**](/specs/peer-messaging/peer-messaging.md)
+### [**Take Order Message**](/specs/taker-message/taker-message.md)
+### [**Trade Response Message**](/specs/trade-response/trade-response.md)
 
 ## Coordinator Delegation
 
@@ -39,7 +39,7 @@ An important note is that, the protocol nor the relays are meant to be providing
 
 ## Locking of a Trade
 
-A trade shall be considered 'locked' once both the Maker and Taker has establish certain types of guarantees that the trade will likely go through. This might be when bonds have been locked into a multi-sig and confirmed. Or when the trade amount has been escrowed by a trusted 3rd party. When a trade is considered `locked` will ultimately be Trade Engine specific. Regardless, when a trade is considered locked, that's when the Maker Order Notes associated with the trade needs to either be updated or be deleted. See the [Maker Order Note](/specs/maker_note/maker-note.md) specification for details.
+A trade shall be considered 'locked' once both the Maker and Taker has establish certain types of guarantees that the trade will likely go through. This might be when bonds have been locked into a multi-sig and confirmed. Or when the trade amount has been escrowed by a trusted 3rd party. When a trade is considered `locked` will ultimately be Trade Engine specific. Regardless, when a trade is considered locked, that's when the Maker Order Notes associated with the trade needs to either be updated or be deleted. See the [Maker Order Note](/specs/maker-note/maker-note.md) specification for details.
 
 ## Trade Engine Possibilities & Examples
 

@@ -32,7 +32,7 @@ Maximize censorship resistance
 ## Proposal
 
 ### [**1 - Architecture**](/specs/architecture/architecture.md)
-### [**2 - Make Order Note**](/specs/maker-notes/maker-note.md)
+### [**2 - Make Order Note**](/specs/maker-note/maker-note.md)
 ### [**3 - Peer Messaging**](/specs/peer-messaging/peer-messaging.md)
 ### [**4 - Take Order Message**](/specs/taker-message/taker-message.md)
 ### [**5 - Trade Response Message**](/specs/trade-response/trade-response.md)
