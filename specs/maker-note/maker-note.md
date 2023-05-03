@@ -1,4 +1,5 @@
 # n3xB Maker Order Note
+*See [Architecture](/specs/architecture/architecture.md) for where Maker Order Note fits in the overall n3xB protocol flow*
 
 ## Identification
 
@@ -100,22 +101,56 @@ The `amount` is the maximum amount to be traded. `amount_min` is the minimum amo
 
 ### Specifying Trade Exchange Rate
 
-There are two ways for the Maker Order Note to specify an exchange rate, by providing a hard `limit_rate` that a taker must use to take the order, or to allow for a `market_offset_pct` from a market rate. Both `limit_rate` and `market_offset_pct` shall not be set at the same time, or the Maker Order Note shall be considered invalid.
+There are two ways for the Maker Order Note to specify an exchange rate, by providing a hard `limit_rate` that a taker must use to take the order, or to allow for a `market_offset_pct` from a market rate.
 
 If `market_offset_pct` is provided, the Maker must also provide a list of approved `market_oracles` that a taker can use to query for market exchange rate where the offset will be based off of. It is ultimately up to the Maker to respond to the Taker's Take message on whether the final determined exchange rate is acceptable before going into the Trade Phase with the Taker.
 
-## Discoverability
+### Trade Engine Specifics
+
+A section is left for details that would be specific to a particulate Trade Engine implementation. Trade Engine implementation should be careful to not reveal any personally identifiable or secret information inside a Taker Order Note, as it is plaintext and widely distributed.
+
+## Order Types
+
+Numerous order types should be possible with the protocol as defined, namely
+
+### Limit Order (Maker)
+
+Maker creates an order at a certain limit price to wait for a Taker to later take it with a Market Order.
+
+### Market Order (Taker)
+
+Taker buys from any existing order on the market. Usually buying at the lowest price available, or selling at the highest price available.
+
+### Market Order (Maker)
+
+Maker creates an order to trade at an offset from the market price of when a Taker takes the order.
+
+### Market Order with Limit (Maker)
+
+Maker creates an order to trade at an offset from the market price of when a Taker takes the order, but with an upper limit price for a buy order and a lower limit price for a sell order
+
+Caution that market offset orders can be open to Takers cherry picking from a price dataset. They can potentially select the most advantageous price between the time the order was made and when the order gets taken, with no ability for the Maker to detect when the order was actually taken and thus which price is the agreed market price. Even some sort of open timestamping technique will not help as the Taker can always repeatedly timestamp trades and not broadcast it until an advantageous price disparity exists, and only then will they broadcast the trade to capture a guaranteed spread. With all the above said, this isn't that much different from a Taker taking a limit order from a low liquidity exchange only when there is a spread against the market price at high liquidity exchanges. As liquidity improves, there will be little difference between a market offset order and that of a market order.
+
+## Reliability
 
 To ensure discoverability and robustness before potentially entering into a Trade Phase, Maker should make sure to have a Relay List Metadata Note ([NIP-65](https://github.com/nostr-protocol/nips/blob/master/65.md)) for every Nostr relay it is publishing a Maker Order Note to. 
 
 ## Updates
-Maker Order Notes shall be updatable via [NIP-16 Replaceable Events](https://github.com/nostr-protocol/nips/blob/master/16.md). This is especially important if `partial_take` is specified as the amounts needs to be updated as liquidity is taken. Clients should take care of any potential race conditions, including scenarios where Taker decide to take an offer the Maker considers expired and/or invalid, by sending a Peer Message. Client should at least verify the Trade-UUID and also the trade details before determining whether to accept, initiate the trade and take the Order Notes off the relays.
+
+Maker Order Notes shall be updatable via [NIP-16 Replaceable Events](https://github.com/nostr-protocol/nips/blob/master/16.md). This is especially important if `partial_take` is specified as the amounts needs to be updated as liquidity is taken. Clients should take care of any potential race conditions, including scenarios where Taker decide to take an order the Maker considers expired and/or invalid, by sending a Peer Message. Client should at least verify the Trade-UUID and also the trade details before determining whether to accept, initiate the trade and take the Order Notes off the relays.
 
 ## Invalidation
+
 Once a Trade have been considered locked or cancelled, Maker Order Notes for the Trade (same Trade-UUID) shall be deleted via [NIP-09 Event Deletion](https://github.com/nostr-protocol/nips/blob/master/09.md). This is to improve privacy and to reduce the storage burden on relays.
 
 ## Expiry
+
 Maker should enforce the setting of [NIP-40 Expiry Timestamp](https://github.com/nostr-protocol/nips/blob/master/40.md) so Maker Order Notes will not linger forever in a relay if the Maker somehow fails at some point to continue to keeps the Order Note maintained. Exact duration of this is implementation dependent. From a naive guestimation, there shouldn't be any reasons for an Order Note to be outstanding for more than 30 days. More volatile markets might demand this time-window be further constrained. Clients can potentially replay an Order Note upon expiry after notifying the user for intervention.
 
 ## Privacy
+
 For strongest privacy, its best if clients creates a new pubkey for every single Trade (unique Trade-UUID) created. Pubkeys can be part of an Hierarchical Deterministic key tree. This might however impair the ability to implement a reputation system. Exact implementation and where the trade-off should be drawn shall be up to the specific Trade Engine implementation.
+
+## Proof of Work
+
+Proof of Work should be generated as according to [NIP-13](https://github.com/nostr-protocol/nips/blob/master/13.md). The difficulty should be at least 4 bits higher than what is asked of the Takers in the `pow_difficulty` field. The difficulty that Takers will demand as a minimum difficulty in their query will need to be established out of band, and not part of the scope of the n3xB specification.

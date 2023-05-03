@@ -1,4 +1,5 @@
 # n3xB Peer Messaging
+*See [Architecture](/specs/architecture/architecture.md) for where Peer Messaging fits in the overall n3xB protocol flow*
 
 n3xB standardizes how peer messaging can be conducted. Its is not mandatory for Trade Engines to use n3xB messaging schemes, but it is available. For n3xB Take Order Messages and Trade Response Messages, this is the assumed default.
 
@@ -21,6 +22,7 @@ Often times manual user actions, or a wake-up of a mobile client, is required to
 Aside from the mandatory `#p` tag as specified in [NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md). Tags are not used whatsoever, as they are in plain text and reduces secrecy and privacy for the trade and participants.
 
 ## Content JSON
+
 Note that this is the plaintext of what the decrypted content would be. The actual content that goes into a message would be encrypted as according to [NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md).
 ```
 {
@@ -42,8 +44,12 @@ If a Trade Engine chooses to use the n3xB Peer Messaging scheme, it can define i
 
 | `message_type` string code | Message specification |
 | -------------------------- | --------------------- |
-| n3xB_take_order | [Take Order Message](/specs/taker-message/taker-message.md) |
-| n3xB_trade_response | [Trade Response Message](/specs/trade-response/trade-response.md) |
+| n3xB-take-order | [Take Order Message](/specs/taker-message/taker-message.md) |
+| n3xB-trade-response | [Trade Response Message](/specs/trade-response/trade-response.md) |
+
+## Proof of Work
+
+Proof of Work should be generated as according to [NIP-13](https://github.com/nostr-protocol/nips/blob/master/13.md). The difficulty for all messages pertaining to a particular Maker Order Note needs to meet the minimum specified in the `pow_difficulty` field. Otherwise all parties involved has the right to not respond to any peer messages pertaining to that Order.
 
 ## Privacy Improvement
 

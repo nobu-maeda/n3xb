@@ -1,7 +1,7 @@
-# N3XB
+# n3xB
 *Naive Nostr No-KYC Exchange for Bitcoin*
 
-n3xB (Naive Nostr No-KYC Exchange for Bitcoin) is a layer 2 protocol inspired by, and runs on top of Nostr. n3xB aspires to become a standard language for making P2P trade orders, how to negotiate between maker and takers, and on how to take these orders. Allowing different Bitcoin P2P solutions to interoperate, enabling separation of concerns, resulting in a global order book of shared deep liquidity that is not wall-gardened by any one particular solution.
+n3xB (pronounced *nexby*) is a layer 2 protocol inspired by, and runs on top of Nostr. n3xB aspires to become a standard language for making P2P trade orders, how to negotiate between maker and takers, and on how to take these orders. Allowing different Bitcoin P2P solutions to interoperate, enabling separation of concerns, resulting in a global order book of shared deep liquidity that is not wall-gardened by any one particular solution.
 
 ## Goals
 - Become the defacto global order book for P2P Bitcoin <=> Fiat trading
@@ -35,7 +35,7 @@ Maximize censorship resistance
 ### [**2 - Make Order Note**](/specs/maker-notes/maker-note.md)
 ### [**3 - Peer Messaging**](/specs/peer-messaging/peer-messaging.md)
 ### [**4 - Take Order Message**](/specs/taker-message/taker-message.md)
-### [**5 - Trade Respond Message**](/specs/trade-response/trade-response.md)
+### [**5 - Trade Response Message**](/specs/trade-response/trade-response.md)
 
 ## Implementation Possibilities & Examples
 
