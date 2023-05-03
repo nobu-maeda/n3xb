@@ -41,6 +41,10 @@ An important note is that, the protocol nor the relays are meant to be providing
 
 A trade shall be considered 'locked' once both the Maker and Taker has establish certain types of guarantees that the trade will likely go through. This might be when bonds have been locked into a multi-sig and confirmed. Or when the trade amount has been escrowed by a trusted 3rd party. When a trade is considered `locked` will ultimately be Trade Engine specific. Regardless, when a trade is considered locked, that's when the Maker Order Notes associated with the trade needs to either be updated or be deleted. See the [Maker Order Note](/specs/maker-note/maker-note.md) specification for details.
 
+## Trading Fees
+
+Coordinators, Arbitrators, Reputation aggregators, etc, and specific Client implementations might decide to require fees to facilitate trades, reputation attestation, or arbitration settlements. The communication and negotiation of such is not explicitly defined by the n3xB protocol. n3xB protocol itself does not require nor defines any fees. The n3xB protocol only helps Maker and Takers convey the net amounts and exchange rates desired. Any fees will be in addition of the amounts specified and negotiated, and will have to be communicated in either a Trade Engine specific manner, or by the client implementations to the users directly. n3xB defined Notes and Messages however do leave room for Trade Engine specific communications, and as such any fees can possibly be conveyed and negotiated in-band without additional messaging if necessary.
+
 ## Trade Engine Possibilities & Examples
 
 Some example of trade engines possible on top of n3xB can be found below:

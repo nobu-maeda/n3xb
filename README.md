@@ -29,7 +29,7 @@ Maximize censorship resistance
 - By building on top of Nostr, the decentralized and censorship resistant architecture of Nostr can be leveraged. This however can only be maximally achieved if *existing* Nostr relays can be usable for trading purposes without trade aware logic or trade specific NIPs. Protocol shall be built so any new NIPs proposed are not trade specific, and are only nice-to-haves and not required for core operations.
 
 
-## Proposal
+## Protocol Proposal
 
 ### [**1 - Architecture**](/specs/architecture/architecture.md)
 ### [**2 - Make Order Note**](/specs/maker-note/maker-note.md)
