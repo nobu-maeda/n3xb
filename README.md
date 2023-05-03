@@ -9,6 +9,9 @@ n3xB (Naive Nostr No-KYC Exchange for Bitcoin) is a layer 2 protocol inspired by
 - No specialty Nostr relays - should work with existing social media relays, and aspires to minimize new NIPs required
 - Preserve the openness, transparency, separation of concerns, decentralization and censorship resistant properties afforded by Nostr
 
+![n3xB's position in the broader P2P trade software/protocol stack](software_protocol_stack.png)
+> n3xB's position in the broader P2P trade software/protocol stack
+
 ## Why?
 Prevent fragmentation of liquidity
 - Many ‘P2P’ solutions already exist, but each individually has poor liquidity. If we are able to aggregate them into a common liquidity pool, this will greatly improve competitiveness against centralized solutions
