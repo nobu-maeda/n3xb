@@ -2,9 +2,9 @@
 
 ## Identification
 
-A n3xB Maker Order Note is a Nostr *Aribtrary custom app data* ([NIP-78](https://github.com/nostr-protocol/nips/blob/master/78.md)) note, and as such can be identified by a `kind` value of `30078` and a a tag value of `n3xb-maker-order` for tag name `#d`.
+A n3xB Maker Order Note is a Nostr *Aribtrary custom app data* ([NIP-78](https://github.com/nostr-protocol/nips/blob/master/78.md)) note, and as such can be identified by a `kind` value of `30078`, a tag value of `n3xb` for tag name `#d`, and a tag value of `maker-order` for tag name `#k`.
 
-A specific trade for an earmarked lot of liquidity represented by one or more Maker Order Note shall be assigned a unique 32-bytes lowercase hex Trade-UUID as value for tag name `#i`. This is especially important if a Maker wants the same lot of liquidity to be takable by Takers through multiple Maker Order Notes, of which each allows for different sets of parameters with different Trade Engines specified.
+A specific trade for an earmarked lot of liquidity represented by one or more Maker Order Note shall be assigned a unique but randomly generated 32-bytes lowercase hex Trade-UUID as value for tag name `#i`. This is especially important if a Maker wants the same lot of liquidity to be takable by Takers through multiple Maker Order Notes, of which each allows for different sets of parameters with different Trade Engines specified.
 
 ## Pre-Defined Tags
 
@@ -36,7 +36,7 @@ Fiat Obligation tag values are prefixed with `ob-fiat`. This is followed by the 
 
 ### Trade Engine
 
-Tag name of `#e` will be used to specify trade engines supported. Multiple engine tags can be specified. However for each engine specified, all other parameters in the Maker Order Note must also be true and be supported. If this is not possible, client should create multiple Maker Order Notes for engines it supports, but that have different sets of Maker Order parameters. A client shall update, or remove, Order Notes that differs in engine and supported parameters, but that pertains to the same set of liquidity, once the liquidity have been taken by a counter-party.
+Tag name of `#n` will be used to specify trade engines supported. Multiple engine tags can be specified. However for each engine specified, all other parameters in the Maker Order Note must also be true and be supported. If this is not possible, client should create multiple Maker Order Notes for engines it supports, but that have different sets of Maker Order parameters. A client shall update, or remove, Order Notes that differs in engine and supported parameters, but that pertains to the same set of liquidity, once the liquidity have been taken by a counter-party.
 
 Trade Engine implementations should seek to avoid engine tag value conflicts, including making pull requests to n3xB to list and reserve engine tag values.
 
@@ -103,6 +103,10 @@ The `amount` is the maximum amount to be traded. `amount_min` is the minimum amo
 There are two ways for the Maker Order Note to specify an exchange rate, by providing a hard `limit_rate` that a taker must use to take the order, or to allow for a `market_offset_pct` from a market rate. Both `limit_rate` and `market_offset_pct` shall not be set at the same time, or the Maker Order Note shall be considered invalid.
 
 If `market_offset_pct` is provided, the Maker must also provide a list of approved `market_oracles` that a taker can use to query for market exchange rate where the offset will be based off of. It is ultimately up to the Maker to respond to the Taker's Take message on whether the final determined exchange rate is acceptable before going into the Trade Phase with the Taker.
+
+## Discoverability
+
+To ensure discoverability and robustness before potentially entering into a Trade Phase, Maker should make sure to have a Relay List Metadata Note ([NIP-65](https://github.com/nostr-protocol/nips/blob/master/65.md)) for every Nostr relay it is publishing a Maker Order Note to. 
 
 ## Updates
 Maker Order Notes shall be updatable via [NIP-16 Replaceable Events](https://github.com/nostr-protocol/nips/blob/master/16.md). This is especially important if `partial_take` is specified as the amounts needs to be updated as liquidity is taken. Clients should take care of any potential race conditions, including scenarios where Taker decide to take an offer the Maker considers expired and/or invalid, by sending a Peer Message. Client should at least verify the Trade-UUID and also the trade details before determining whether to accept, initiate the trade and take the Order Notes off the relays.

@@ -9,19 +9,20 @@ A flow of a complete trade can look as below
 
 ## Defined Message Types
 
-There are 1 note type and 2 message types that n3xB defines, as can be seen above. See the respective pages for further details and specifications.
+There are 1 note type, 2 message types, and 1 messaging scheme that n3xB defines, as can be seen above. See the respective pages for further details and specifications.
 
-### [**Maker Note**](../maker-note/maker-notes.md)
-### [**Peer Messaging**](../peer-messaging/peer-messaging.md)
-### [**Taker Message**](../taker-message/taker-message.md)
+### [**Maker Order Note**](/spec/maker-note/maker-note.md)
+### [**Peer Messaging**](/spec/peer-messaging/peer-messaging.md)
+### [**Take Order Message**](/spec/taker-message/taker-message.md)
+### [**Trade Response Message**](/spec/trade-response/trade-response.md)
 
 ## Coordinator Delegation
 
-Note that a lot of flexibility can be afforded by this architecture. As an example, an end-user peer can delegate some, or all of the participation in this flows to a coordinator, instead of treating the coordinator as an negotiable assigned 3rd party agent. The method in which a maker might want to communicate with the coordinator can be through Nostr messaging, or an out of band method, of which is not defined nor limited by the n3xB protocol. See [E2 - Lightning Implementation](../../examples/lightning-proxy/lightning-proxy.md) as an example.
+Note that a lot of flexibility can be afforded by this architecture. As an example, an end-user peer can delegate some, or all of the participation in this flows to a coordinator, instead of treating the coordinator as an negotiable assigned 3rd party agent. The method in which a maker might want to communicate with the coordinator can be through Nostr messaging, or an out of band method, of which is not defined nor limited by the n3xB protocol. See [E2 - Lightning Implementation](/examples/lightning-proxy/lightning-proxy.md) as an example.
 
 ## Nostr Multi-casting
 
-Building atop of Nostr, each client shall be connected to multiple relays. Clients can post Maker Order Notes to these relays to be discovered by other clients that might be potential takers. A Maker Order Note will be characterized by usage of `kind` = `30078` ([NIP-78](https://github.com/nostr-protocol/nips/blob/master/78.md)), along with specific usage of generic tags ([NIP-12](https://github.com/nostr-protocol/nips/blob/master/12.md)). See the [Maker Order Note](../maker-note/maker-note.md) specification for further details.
+Building atop of Nostr, each client shall be connected to multiple relays. Clients can post Maker Order Notes to these relays to be discovered by other clients that might be potential takers. A Maker Order Note will be characterized by usage of `kind` = `30078` ([NIP-78](https://github.com/nostr-protocol/nips/blob/master/78.md)), along with specific usage of generic tags ([NIP-12](https://github.com/nostr-protocol/nips/blob/master/12.md)). See the [Maker Order Note](/specs/maker-note/maker-note.md) specification for further details.
 
 Perfect discovery of every Maker Order Note by every potential Taker is not possible, but it is assumed that once liquidity is sufficiently high, all trades at the margin should be similar across a sample of relays given Maker multi-casting, even if perfect order discovery is not achieved. There might also be arbitrageurs emerging to bridge any gaps if there are large differences in the prices in order books between relays.
 
@@ -38,12 +39,12 @@ An important note is that, the protocol nor the relays are meant to be providing
 
 ## Locking of a Trade
 
-A trade shall be considered 'locked' once both the Maker and Taker has establish certain types of guarantees that the trade will likely go through. This might be when bonds have been locked into a multi-sig and confirmed. Or when the trade amount has been escrowed by a trusted 3rd party. When a trade is considered `locked` will ultimately be Trade Engine specific. Regardless, when a trade is considered locked, that's when the Maker Order Notes associated with the trade needs to either be updated or be deleted. See the [Maker Order Note](../maker_note/maker-note.md) specification for details.
+A trade shall be considered 'locked' once both the Maker and Taker has establish certain types of guarantees that the trade will likely go through. This might be when bonds have been locked into a multi-sig and confirmed. Or when the trade amount has been escrowed by a trusted 3rd party. When a trade is considered `locked` will ultimately be Trade Engine specific. Regardless, when a trade is considered locked, that's when the Maker Order Notes associated with the trade needs to either be updated or be deleted. See the [Maker Order Note](/specs/maker_note/maker-note.md) specification for details.
 
 ## Trade Engine Possibilities & Examples
 
 Some example of trade engines possible on top of n3xB can be found below:
 
-### [**E1 - Onchain Multi-sig with trust limited Arbitrator**](../../examples/on-chain/on-chain.md)
-### [**E2 - Lightning with Coordinator as Maker Proxy**](../../examples/lightning-proxy/lightning-proxy.md)
-### [**E3 - Lightning with negotiated Coordinator**](../../examples/lightning-negotiated/lightning-negotiated.md)
+### [**E1 - Onchain Multi-sig with trust limited Arbitrator**](/examples/on-chain/on-chain.md)
+### [**E2 - Lightning with Coordinator as Maker Proxy**](/examples/lightning-proxy/lightning-proxy.md)
+### [**E3 - Lightning with negotiated Coordinator**](/examples/lightning-negotiated/lightning-negotiated.md)

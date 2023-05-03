@@ -32,12 +32,13 @@ Maximize censorship resistance
 ## Proposal
 
 ### [**1 - Architecture**](/specs/architecture/architecture.md)
-### [**2 - Maker Notes**](/specs/maker-notes/maker-notes.md)
+### [**2 - Make Order Note**](/specs/maker-notes/maker-note.md)
 ### [**3 - Peer Messaging**](/specs/peer-messaging/peer-messaging.md)
-### [**4 - Taker Message**](/specs/taker-message/taker-message.md)
+### [**4 - Take Order Message**](/specs/taker-message/taker-message.md)
+### [**5 - Trade Respond Message**](/specs/trade-response/trade-response.md)
 
 ## Implementation Possibilities & Examples
 
-### [**E1 - Onchain Multi-sig with trust limited Arbitrator**](../../examples/on-chain/on-chain.md)
-### [**E2 - Lightning with Coordinator as Maker Proxy**](../../examples/lightning-proxy/lightning-proxy.md)
-### [**E3 - Lightning with negotiated Coordinator**](../../examples/lightning-negotiated/lightning-negotiated.md)
+### [**E1 - Onchain Multi-sig with trust limited Arbitrator**](/examples/on-chain/on-chain.md)
+### [**E2 - Lightning with Coordinator as Maker Proxy**](/examples/lightning-proxy/lightning-proxy.md)
+### [**E3 - Lightning with negotiated Coordinator**](/examples/lightning-negotiated/lightning-negotiated.md)
