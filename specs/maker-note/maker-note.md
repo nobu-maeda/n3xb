@@ -72,20 +72,20 @@ A trade can time-out after being taken if the trade have not completed within th
   "content": {
     "maker_obligation": {
       "amount": <amount in integer>
-      "amount_min": <minimum amount in integer. Use in conjunction with tag `accepts-partial_take`>
+      "amount_min": <minimum amount in integer. Use in conjunction with tag `accepts-partial_take`. Omit if n/a>
     }
 
 
     "taker_obligation: {
-      "limit_rate": <limit rate of taker currency / maker currency in 64 bit double. Can be empty>
-      "market_offset_pct": <percentage offset from market price for the trade pair. Can be empty>
-      "market_oracles": <list of URL of market oracles / oracle aggregation algorithm to fetch a market price. Can be empty>
+      "limit_rate": <limit rate of taker currency / maker currency in 64 bit double. Omit if n/a>
+      "market_offset_pct": <percentage offset from market price for the trade pair. Omit if n/a>
+      "market_oracles": <list of URL of market oracles / oracle aggregation algorithm to fetch a market price. Omit if n/a>
     }
 
     "trade_details: {
-      "maker_bond_pct": <integer of numerator of percentage out of 100 of the bond maker needs to pay as fraction of trade amount. Use in conjunction with tag `bonds-required`>
-      "taker_bond_pct": <integer of numerator of percentage out of 100 of the bond taker needs to pay as fraction of trade amount.  Use in conjunction with tag `bonds-required`>
-      "trade_timeout": <time trade needs to be completed by, used in conjunction with tag `trade-times-out`>
+      "maker_bond_pct": <integer of numerator of percentage out of 100 of the bond maker needs to pay as fraction of trade amount. Use in conjunction with tag `bonds-required`. Omit if n/a>
+      "taker_bond_pct": <integer of numerator of percentage out of 100 of the bond taker needs to pay as fraction of trade amount.  Use in conjunction with tag `bonds-required`. Omit if n/a>
+      "trade_timeout": <time trade needs to be completed by, used in conjunction with tag `trade-times-out`. Omit if n/a>
     }
 
     "trade_engine_specifics: <trade engine specific arbitrary JSON>

@@ -28,7 +28,7 @@ Note that this is the plaintext of what the decrypted content would be. The actu
 {
   ...
   "content": {
-    "peer_message_id": <32-bytes lowercase hex id of the Peer Message being responded to. Omit if not applicable>
+    "peer_message_id": <32-bytes lowercase hex id of the Peer Message being responded to. Omit if n/a>
     "maker_order_note_id": <32-bytes lowercase hex id of the Maker Order Note this message corresponds to>
     "trade_uuid": <32-bytes lowercase hex Trade-UUID this message corresponds to>
     "message_type": <string code of message type, specific to n3xB or a Trade Engine>

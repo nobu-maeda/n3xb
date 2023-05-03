@@ -27,16 +27,16 @@ Trade Engine implementations should be careful to minimize the amount of persona
       "amount": <amount in integer>
       "currency": <currency 'maker_amount' is denominated in>
       "payment": <payment method string code>
-      "bond_amount": <amount of satoshis in integer>
+      "bond_amount": <amount of satoshis in integer. Omit if n/a>
     }
     "taker_obligation": {
       "amount": <amount in integer>
       "currency": <currency 'taker_amount' is denominated in>
       "payment": <payment method string code>
-      "bond_amount": <amount of satoshis in integer>
+      "bond_amount": <amount of satoshis in integer. Omit if n/a>
     }
-    "market_oracle_used": <URL of market oracle used. Omit if not applicable>
-    "pow_difficulty": <A new PoW difficulty for the rest of the trade if the Taker wishes to raise it. Omit if not applicable>
+    "market_oracle_used": <URL of market oracle used. Omit if n/a>
+    "pow_difficulty": <A new PoW difficulty for the rest of the trade if the Taker wishes to raise it. Omit if n/a>
     "trade_engine_specifics": <trade engine specific arbitrary JSON>
   }
   ...

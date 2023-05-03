@@ -24,7 +24,7 @@ Trade Engine implementations should be careful to minimize the amount of persona
   "message_type": "n3xB-trade-response"
   "message": {
     "trade_response_code": <response string code>
-    "reject_reason_code": <array of reason string codes. Omit if not applicable>
+    "reject_reason_code": <array of reason string codes. Omit if n/a>
     "trade_engine_specifics: <trade engine specific arbitrary JSON>
   }
   ...
@@ -32,27 +32,27 @@ Trade Engine implementations should be careful to minimize the amount of persona
 ```
 
 
-| `trade_response_code` | description |
-| --------------------- | ----------- |
-| accepted | Take order accepted. Proceed to Trading Phase |
-| rejected | Take order rejected |
-| not_available | Order no longer available |
+| `trade_response_code` | description                                   |
+| --------------------- | --------------------------------------------- |
+| accepted              | Take order accepted. Proceed to Trading Phase |
+| rejected              | Take order rejected                           |
+| not_available         | Order no longer available                     |
 
 
-| `reject_reason_code` | description |
-| -------------------- | ----------- |
-| invalid-maker-currency | Maker currency is invalid or not of the acceptable set |
-| invalid-maker-settlement | Maker settlement method is invalid or not of the acceptable set |
-| invalid-taker-currency | Taker currency is invalid or not of the acceptable set |
-| invalid-taker-settlement | Taker settlement method is invalid or not of the acceptable set |
-| invalid-market-oracle | Market oracle URL is invalid or not of the acceptable set |
-| maker-amount-out-of-range | Maker amount is out of acceptable range |
-| exchange-rate-out-of-range | Exchange rate is out of acceptable range |
-| maker-bond-out-of-range | Maker bond is either too high or too low |
-| taker-bond-out-of-range | Taker bond is either too high or too low |
-| trade-engine-specific | Trade Engine specific reason. Details should be provided in the JSON inside `trade_engine_specifics` |
-| pow-too-high | The Taker desired minimum PoW is too high for the Maker |
-| insufficient-pow | Take Order Message has insufficient Maker can choose |
+| `reject_reason_code`       | description                                                     |
+| -------------------------- | --------------------------------------------------------------- |
+| invalid-maker-currency     | Maker currency is invalid or not in the acceptable set          |
+| invalid-maker-settlement   | Maker settlement method is invalid or not in the acceptable set |
+| invalid-taker-currency     | Taker currency is invalid or not in the acceptable set          |
+| invalid-taker-settlement   | Taker settlement method is invalid or not in the acceptable set |
+| invalid-market-oracle      | Market oracle URL is invalid or not in the acceptable set       |
+| maker-amount-out-of-range  | Maker amount is out of acceptable range                         |
+| exchange-rate-out-of-range | Exchange rate is out of acceptable range                        |
+| maker-bond-out-of-range    | Maker bond is either too high or too low                        |
+| taker-bond-out-of-range    | Taker bond is either too high or too low                        |
+| trade-engine-specific      | Reason provided in `trade_engine_specifics` JSON                |
+| pow-too-high               | The Taker desired minimum PoW is too high for the Maker         |
+| insufficient-pow           | Take Order Message has insufficient Maker can choose            |
 
 ## Taker Handling
 
