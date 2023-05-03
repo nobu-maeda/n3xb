@@ -17,7 +17,7 @@ Maker should carefully check all parameters specified from the Taker's Take Orde
 
 Trade Engine implementations should be careful to minimize the amount of personally identifiable information inside Trade Engine specific details despite all being encrypted. Trade Engine should definitely avoid transferring actual value at this point, as there is still no guarantee from the Maker whatsoever at this point of the trade.
 
-## Trade Response Message
+## Trade Response Message JSON
 ```
 {
   ...
@@ -52,8 +52,7 @@ Trade Engine implementations should be careful to minimize the amount of persona
 | taker-bond-out-of-range    | Taker bond is either too high or too low                        |
 | trade-engine-specific      | Reason provided in `trade_engine_specifics` JSON                |
 | pow-too-high               | The Taker desired minimum PoW is too high for the Maker         |
-| insufficient-pow           | Take Order Message has insufficient Maker can choose            |
 
 ## Taker Handling
 
-Given a rejection, the Taker is free to retry taking the order again, unless the order is not available all together. PoW in the n3xB messaging scheme should help to prevent denial of service attempts on an order by SPAMing Take Order Messages. A Maker is not obligated to generate a Trade Response for a Take Order Message that does not meet the minimum PoW requirement of the trade.
+Given a rejection, the Taker is free to retry taking the order again, unless the order is not available all together. [PoW in the n3xB Peer Messaging scheme](/specs//peer-messaging/peer-messaging.md#proof-of-work) should help to prevent Take Order Message SPAM/DoS attacks.

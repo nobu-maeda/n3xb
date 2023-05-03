@@ -17,7 +17,7 @@ For all parameters and states related to the trade, the Taker should always have
 
 Trade Engine implementations should be careful to minimize the amount of personally identifiable information inside Trade Engine specific details despite all being encrypted. Trade Engine should definitely avoid transferring actual value at this point, as there is no guarantee from the Maker whatsoever at this point of the trade.
 
-## Take Order Message
+## Take Order Message JSON
 ```
 {
   ...
