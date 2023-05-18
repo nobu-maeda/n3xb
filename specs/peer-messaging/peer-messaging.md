@@ -9,10 +9,6 @@ Until a more privacy preserving direct messaging method is widely available (see
 
 To enhance robustness of peer messaging, clients should ensure that at least several of the relays listed by the counterparty's ([NIP-65](https://github.com/nostr-protocol/nips/blob/master/65.md)) Relay List Metadata is added as backup relays in the client's own relay list.
 
-## Identification
-
-A n3xB Peer Message can be defined by the tag value `n3xb` for tag name `#d`, and the tag value `peer-message` for the tag name `#k`.
-
 ## Push Notifications
 
 Often times manual user actions, or a wake-up of a mobile client, is required to make sure the trade continues. Mobile push notification will be very valuable in these cases. As it is Nostr does not have any support for generating mobile push notifications. A NIP proposal have been made for mobile push [here](https://github.com/nostr-protocol/nips/issues/257). This is not required to make n3xB possible, but it would be a huge improvement to the overall experience and usability if the capability is available. n3xB Peer Messaging shall adopt Nostr push notifications once available.
@@ -21,13 +17,17 @@ Often times manual user actions, or a wake-up of a mobile client, is required to
 
 Aside from the mandatory `#p` tag as specified in [NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md). Tags are not used whatsoever, as they are in plain text and reduces secrecy and privacy for the trade and participants.
 
+## Identification
+
+A n3xB Peer Message is identified by having the string "n3xB-peer-message" at the beginning of the content plaintext, before the JSON begins. By using a content header identifier instead of identification tags, privacy can be enhanced.
+
 ## Content JSON
 
 Note that this is the plaintext of what the decrypted content would be. The actual content that goes into a message would be encrypted as according to [NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md).
 ```
 {
   ...
-  "content": {
+  "content": "n3xB-peer-message" {
     "peer_message_id": <32-bytes lowercase hex id of the Peer Message being responded to. Omit if n/a>
     "maker_order_note_id": <32-bytes lowercase hex id of the Maker Order Note this message corresponds to>
     "trade_uuid": <32-bytes lowercase hex Trade-UUID this message corresponds to>

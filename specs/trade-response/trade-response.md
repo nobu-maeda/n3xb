@@ -15,7 +15,7 @@ Maker should carefully check all parameters specified from the Taker's Take Orde
 
 ## Trade Engine Considerations
 
-Trade Engine implementations should be careful to minimize the amount of personally identifiable information inside Trade Engine specific details despite all being encrypted. Trade Engine should definitely avoid transferring actual value at this point, as there is still no guarantee from the Maker whatsoever at this point of the trade.
+Trade Engine implementations should be careful to minimize the amount of personally identifiable information inside Trade Engine specific details despite all being encrypted. Trade Engine should definitely avoid transferring actual value at this point, as there is still no guarantee from the Taker whatsoever at this point of the trade.
 
 ## Trade Response Message JSON
 ```
@@ -41,6 +41,7 @@ Trade Engine implementations should be careful to minimize the amount of persona
 
 | `reject_reason_code`       | description                                                     |
 | -------------------------- | --------------------------------------------------------------- |
+| pending                    | Order is pending another Taker                                  |
 | invalid-maker-currency     | Maker currency is invalid or not in the acceptable set          |
 | invalid-maker-settlement   | Maker settlement method is invalid or not in the acceptable set |
 | invalid-taker-currency     | Taker currency is invalid or not in the acceptable set          |
@@ -48,10 +49,12 @@ Trade Engine implementations should be careful to minimize the amount of persona
 | invalid-market-oracle      | Market oracle URL is invalid or not in the acceptable set       |
 | maker-amount-out-of-range  | Maker amount is out of acceptable range                         |
 | exchange-rate-out-of-range | Exchange rate is out of acceptable range                        |
-| maker-bond-out-of-range    | Maker bond is either too high or too low                        |
-| taker-bond-out-of-range    | Taker bond is either too high or too low                        |
+| maker-bond-out-of-range    | Maker bond is out of acceptable range                           |
+| taker-bond-out-of-range    | Taker bond is out of acceptable range                           |
 | trade-engine-specific      | Reason provided in `trade_engine_specifics` JSON                |
 | pow-too-high               | The Taker desired minimum PoW is too high for the Maker         |
+
+One way to view a `rejected` response vs a `not_available` response is that a Taker might want to update the Take Order message according to the reject reason and retry. Where-as if the order is no longer available, there is no point for the Taker to retry.
 
 ## Taker Handling
 

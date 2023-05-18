@@ -13,18 +13,18 @@ To ease the ability for clients to query without introducing specific logic to r
 
 ### Obligations
 
-All Maker obligation tags will be under tag name #m, and all Taker obligation tags will be under the tag name #t. When a specific is specified, the more generic tags shall also be included. Multiple obligations can be specified at the same time, including both Bitcoin and fiat (imagine someone wanting to sell USD for either Bitcoin or Euros, etc).
+All Maker obligation tags will be under tag name `#m`, and all Taker obligation tags will be under the tag name `#t`. When a specific is specified, the more generic tags shall also be included. Multiple obligations can be specified at the same time, including both Bitcoin and fiat (imagine someone wanting to sell USD for either Bitcoin or Euros, etc).
 
 At the n3xB level, only the trade intent at the user level will be conveyed. More specific parameters, like the Bitcoin Script Sig that might be used (P2PKH, P2WPKH, specific mutli-sig scheme, Lightning hold invoice vs regular invoice, etc), which are typically not what an end user specifies and are aware of, will be the responsibility of the trade engines.
 
-Bitcoin Obligation tag values are prefixed with `ob-bitcoin`. For now only 2 further specific tags can be specified for on-chain and through Lightning Network.
+Bitcoin obligation tag values are prefixed with `ob-bitcoin`. For now only 2 further specific tags can be specified - for on-chain and through Lightning Network.
 
 | `ob-bitcoin` prefix | description                    |
 | ------------------- | ------------------------------ |
 | `onchain`           | Bitcoin on-chain               |
 | `lightning`         | Bitcoin thru Lightning Network |
 
-Fiat Obligation tag values are prefixed with `ob-fiat`. This is followed by the [ISO 4217 currency codes](https://www.iso.org/iso-4217-currency-codes.html), separated by a `-`, and then the payment method codes as found in [Bisq's PaymentMethod.java](https://github.com/bisq-network/bisq/blob/4f1f6898b8b02dd4ad67042fc814c9e05285f8a8/core/src/main/java/bisq/core/payment/payload/PaymentMethod.java), separated also by a `-`. Not all currency/payment method combinations might actually be usable in reality, but the protocol nevertheless support the ability for a client to express and query any combinations that can be specified.
+Fiat obligation tag values are prefixed with `ob-fiat`. This is followed by the [ISO 4217 currency codes](https://www.iso.org/iso-4217-currency-codes.html), separated by a `-`, and then the payment method codes as found in Bisq's [PaymentMethod.java](https://github.com/bisq-network/bisq/blob/4f1f6898b8b02dd4ad67042fc814c9e05285f8a8/core/src/main/java/bisq/core/payment/payload/PaymentMethod.java), separated also by a `-`. Not all currency/payment method combinations might actually be usable in reality, but the protocol nevertheless support the ability for a client to express and query any combinations that can be specified.
 
 | `ob-fiat` prefix examples | description                                           |
 | ------------------------- | ----------------------------------------------------- |
@@ -41,6 +41,18 @@ Tag name of `#n` will be used to specify trade engines supported. Multiple engin
 
 Trade Engine implementations should seek to avoid engine tag value conflicts, including making pull requests to n3xB to list and reserve engine tag values.
 
+### Trade Status
+
+Tag name of #s will be used to specify the status of the trade for the order. Maker should strive to keep all status in sync if there are multiple Maker Order Notes for the same lot of liquidity. Trade status is an open-ended field, with several mandatory statuses that client implementations should support, and several optional statuses. Trade engine are also free to override the value of the status field provided that it does not impact the operation of mandatory statues.
+
+| Trade statuses | description                                                                 |
+| -------------- | --------------------------------------------------------------------------- |
+| `open`         | Order is open for Takers to take                                            |
+| `pending`      | Order is pending another Taker, but can potentially return to `open` status |
+| `locked`       | Order is 'locked' and will not become available again                       |
+| `failed`       | Order have been locked but trade failed. This is an optional status         |
+| `completed`    | Order have been locked and the trade completed. This is an optional status  |
+
 ### General Trade Details
 
 General trade details should be specified as tag values under tag name `#p`. Primarily this is to help with querying and filtering. Many of the specifics in relation to these parameters shall be defined in specific Trade Engines until further standardization occurs.
@@ -55,9 +67,9 @@ General trade details should be specified as tag values under tag name `#p`. Pri
 | `trusted-arbitration`       | Trade is arbitrated by a trusted entity      |
 | `accepts-partial_take`      | Taking of partial amount is accepted         |
 
-If `accepts-partial-take` is set, the Maker Order Note is to be replaced with the amounts adjusted instead of being deleted after a partial trade is considered *In Progress*. Also see the later sections on **Invalidation**, **Updates** and **Expiry** for further details.
+If `accepts-partial-take` is set, the Maker Order Note is to be replaced with the amounts adjusted instead of being deleted after a partial trade is considered [*locked*](/specs/architecture/architecture.md#locking-of-a-trade). Also see the later sections on [**Invalidation**](#invalidation), [**Updates**](#updates) and [**Expiry**](#expiry) for further details.
 
-A trade can time-out after being taken if the trade have not completed within the time-out value. This is typically seen in on-chain timelock arbitration scripts, and Lightning hold invoices. Tags can help query for time-out attributes, with predefined values as follows. Note that with either `trade-times-out-4-days` and `trade-times-out-24-hours`, `trade-times-out` is considered the generic case and should also be specified. If only `trade-times-out` is specified, a non-standard trade engine specific timeout is assumed applied.
+A trade can time-out after being taken if the trade have not completed within the time-out value. This is typically seen in on-chain timelock arbitration scripts, and Lightning hold invoices. Tags can help query for time-out attributes, with predefined values as follows. Note that with either `trade-times-out-4-days` and `trade-times-out-24-hours`, `trade-times-out` is considered the generic case and should also be specified. If only `trade-times-out` is specified, a non-standard trade engine specific timeout is assume applied.
 
 | `trade-times-out` prefix | description                                                 |
 | ------------------------ | ----------------------------------------------------------- |
@@ -77,15 +89,15 @@ A trade can time-out after being taken if the trade have not completed within th
 
 
     "taker_obligation: {
-      "limit_rate": <limit rate of taker currency / maker currency in 64 bit double. Omit if n/a>
-      "market_offset_pct": <percentage offset from market price for the trade pair. Omit if n/a>
-      "market_oracles": <list of URL of market oracles / oracle aggregation algorithm to fetch a market price. Omit if n/a>
+      "limit_rate": <limit rate of taker currency / maker currency, in 64 bit double. Omit if n/a>
+      "market_offset_pct": <percentage offset from market price for the trade pair, in 64 bit double. Omit if n/a>
+      "market_oracles": <array of URL of market oracles / oracle aggregation algorithm to fetch a market price. Omit if n/a>
     }
 
     "trade_details: {
-      "maker_bond_pct": <integer of numerator of percentage out of 100 of the bond maker needs to pay as fraction of trade amount. Use in conjunction with tag `bonds-required`. Omit if n/a>
-      "taker_bond_pct": <integer of numerator of percentage out of 100 of the bond taker needs to pay as fraction of trade amount.  Use in conjunction with tag `bonds-required`. Omit if n/a>
-      "trade_timeout": <time trade needs to be completed by, used in conjunction with tag `trade-times-out`. Omit if n/a>
+      "maker_bond_pct": <numerator of percentage out of 100 of the bond maker needs to pay as fraction of trade amount, in integer. Use in conjunction with tag `bonds-required`. Omit if n/a>
+      "taker_bond_pct": <numerator of percentage out of 100 of the bond taker needs to pay as fraction of trade amount, in integer.  Use in conjunction with tag `bonds-required`. Omit if n/a>
+      "trade_timeout": <minutes trade needs to be completed by, used in conjunction with tag `trade-times-out`, in integer. Omit if n/a>
     }
 
     "trade_engine_specifics: <trade engine specific arbitrary JSON>
@@ -121,11 +133,11 @@ Maker creates an order at a certain limit price to wait for a Taker to later tak
 
 Taker buys from any existing order on the market. Usually buying at the lowest price available, or selling at the highest price available.
 
-### Market Order (Maker)
+### Market Offset Order (Maker)
 
 Maker creates an order to trade at an offset from the market price of when a Taker takes the order.
 
-### Market Order with Limit (Maker)
+### Market Offset Order with Limit (Maker)
 
 Maker creates an order to trade at an offset from the market price of when a Taker takes the order, but with an upper limit price for a buy order and a lower limit price for a sell order
 
@@ -141,7 +153,7 @@ Maker Order Notes shall be updatable via [NIP-16 Replaceable Events](https://git
 
 ## Invalidation
 
-Once a Trade have been considered locked or cancelled, Maker Order Notes for the Trade (same Trade-UUID) shall be deleted via [NIP-09 Event Deletion](https://github.com/nostr-protocol/nips/blob/master/09.md). This is to improve privacy and to reduce the storage burden on relays.
+Once a Trade have been considered [locked](/specs/architecture/architecture.md#locking-of-a-trade) or cancelled, Maker Order Notes for the Trade (same Trade-UUID) can be deleted via [NIP-09 Event Deletion](https://github.com/nostr-protocol/nips/blob/master/09.md). This is to improve privacy and to reduce the storage burden on relays. One potential reason for not deleting an order would be to preserve it potentially for reputation purposes, this however would be outside the scope of the n3xB protocol and would be trade engine specific.
 
 ## Expiry
 

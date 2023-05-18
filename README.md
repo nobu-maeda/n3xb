@@ -23,7 +23,7 @@ Separation of concerns
 - Developers can create projects which focus to innovate against a specific pain point (clients, relays, etc), without needing to create a completely new order-book or eco-system.
 
 Mobile friendly architecture
-- Nature of true P2P platforms usually prevents mobile clients from a possibility, despite mobile being the most common and desired client platform. By using Nostr relays as a backbone, this much better enables development of mobile clients. Not to mention this also brings many other beneficial properties from Nostr.
+- Nature of true P2P platforms usually prevents mobile clients from being a possibility, despite mobile being the most common and desired client platform. By using Nostr relays as a backbone, this much better enables development of mobile clients.
 
 Maximize censorship resistance
 - By building on top of Nostr, the decentralized and censorship resistant architecture of Nostr can be leveraged. This however can only be maximally achieved if *existing* Nostr relays can be usable for trading purposes without trade aware logic or trade specific NIPs. Protocol shall be built so any new NIPs proposed are not trade specific, and are only nice-to-haves and not required for core operations.
