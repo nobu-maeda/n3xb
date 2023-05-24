@@ -26,7 +26,7 @@ Building atop of Nostr, each client shall be connected to multiple relays. Clien
 
 Perfect discovery of every Maker Order Note by every potential Taker is not possible, but it is assumed that once liquidity is sufficiently high, all trades at the margin should be similar across a sample of relays given Maker multi-casting, even if perfect order discovery is not achieved. There might also be arbitrageurs emerging to bridge any gaps if there are large differences in the prices in order books between relays.
 
-![A view of how two clients can talk to each other in a simplified potential Nostr network](nostr_network.png)
+![A view of how two clients can talk to each other in a simplified potential Nostr network](nostr-network.png)
 > Two Nostr clients and their common relays allows order publishing, order discovery and trade messaging to occur in a trust minimized and censorship resistant manner
 
 ## Nostr Direct Messaging

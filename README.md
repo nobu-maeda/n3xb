@@ -9,7 +9,7 @@ n3xB (pronounced *nexby*) is a layer 2 protocol inspired by, and runs on top of 
 - No specialty Nostr relays - should work with existing social media relays, and aspires to minimize new NIPs required
 - Preserve the openness, transparency, separation of concerns, decentralization and censorship resistant properties afforded by Nostr
 
-![n3xB's position in the broader P2P trade software/protocol stack](software_protocol_stack.png)
+![n3xB's position in the broader P2P trade software/protocol stack](software-protocol-stack.png)
 > n3xB's position in the broader P2P trade software/protocol stack
 
 ## Why?
