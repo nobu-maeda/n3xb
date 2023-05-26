@@ -57,7 +57,7 @@ Notice that initially, the traded amount `ma` was from an input funded by the Ma
 
 This on-chain multi-sig transaction flow has actually been built against Bitcoin Testnet as an example Rust based executable in the Github repo [n3xb-bdk-derisk](https://github.com/nobu-maeda/n3xb-bdk-derisk).
 
-## Locking of trade
+## Locking of Trade
 
 The trade engine here have chose to wait until all bonds have been committed before deciding that the trade is locked. This is the point where both the Maker and Taker can really no longer back out of the trade. Before this point, both the Maker and Taker can still drop the trade and have the lot of liquidity available for another counterparty and another trade. The trade status after receiving the Take Order Message and before the funding transaction is broadcasted can be considered `pending`.
 
