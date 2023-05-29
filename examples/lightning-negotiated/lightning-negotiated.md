@@ -1,4 +1,4 @@
-# n3xB Lightning Network Negotiated Coordinator Trade Engine Example
+# n3xB Lightning Network Negotiated Escrow Agent Trade Example
 
 This trade engine mechanics is an attempt to reduce the trust required on the coordinator as otherwise seen in the [Lightning escrow proxied trade example](../lightning-proxy/lightning-proxy.md). In that example, in addition to escrow of funds, the coordinator also controls timing, relays communications, and conducts the overall trade - not to mention acting as the final arbitrator if dispute arises.
 
