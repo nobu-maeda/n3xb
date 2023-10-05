@@ -1,5 +1,6 @@
 # n3xB Peer Messaging
-*See [Architecture](/specs/architecture/architecture.md) for where Peer Messaging fits in the overall n3xB protocol flow*
+
+_See [Architecture](/specs/architecture/architecture.md) for where Peer Messaging fits in the overall n3xB protocol flow_
 
 n3xB standardizes how peer messaging can be conducted. Its is not mandatory for Trade Engines to use n3xB messaging schemes, but it is available. For n3xB Take Order Messages and Trade Response Messages, this is the assumed default.
 
@@ -24,16 +25,20 @@ A n3xB Peer Message is identified by having the string "n3xB-peer-message" at th
 ## Content JSON
 
 Note that this is the plaintext of what the decrypted content would be. The actual content that goes into a message would be encrypted as according to [NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md).
+
 ```
 {
   ...
-  "content": "n3xB-peer-message" {
+  "content": {
+    "type": "n3xB-peer-message"
     "peer_message_id": <32-bytes lowercase hex id of the Peer Message being responded to. Omit if n/a>
     "maker_order_note_id": <32-bytes lowercase hex id of the Maker Order Note this message corresponds to>
     "trade_uuid": <32-bytes lowercase hex Trade-UUID this message corresponds to>
-    "message_type": <string code of message type, specific to n3xB or a Trade Engine>
-    "message": <arbitrary JSON depending on the message type>
-  }
+    "message_type:" <message type, specifies whether its one of n3xB messages or a Trade Engine specific one>
+    "message": {
+      type: <message type identifier, specific to n3xB or a Trade Engine, as string>
+      ... message specific JSON fields ...
+    }
   ...
 }
 ```
@@ -42,10 +47,10 @@ Note that this is the plaintext of what the decrypted content would be. The actu
 
 If a Trade Engine chooses to use the n3xB Peer Messaging scheme, it can define its own Message Types and Message JSON formats. The following are Message Type string codes defined by n3xB, and a link to the corresponding specification of the Message JSON format itself.
 
-| `message_type` string code | Message specification |
-| -------------------------- | --------------------- |
-| n3xB-take-order | [Take Order Message](/specs/taker-message/taker-message.md) |
-| n3xB-trade-response | [Trade Response Message](/specs/trade-response/trade-response.md) |
+| `message_type` string code | Message specification                                             |
+| -------------------------- | ----------------------------------------------------------------- |
+| n3xB-taker-offer           | [Take Order Message](/specs/taker-message/taker-message.md)       |
+| n3xB-trade-response        | [Trade Response Message](/specs/trade-response/trade-response.md) |
 
 ## Proof of Work
 

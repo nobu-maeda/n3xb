@@ -1,5 +1,6 @@
 # n3xB Take Order Message
-*See [Architecture](/specs/architecture/architecture.md) for where Take Order Message fits in the overall n3xB protocol flow*
+
+_See [Architecture](/specs/architecture/architecture.md) for where Take Order Message fits in the overall n3xB protocol flow_
 
 This specifies the message format inside a n3xB Peer Message for `message_type = n3xB-take-order`
 
@@ -18,28 +19,33 @@ For all parameters and states related to the trade, the Taker should always have
 Trade Engine implementations should be careful to minimize the amount of personally identifiable information inside Trade Engine specific details despite all being encrypted. Trade Engine should definitely avoid transferring actual value at this point, as there is no guarantee from the Maker whatsoever at this point of the trade.
 
 ## Take Order Message JSON
+
 ```
-{
-  ...
-  "message_type": "n3xB-take-order"
-  "message": {
-    "maker_obligation": {
-      "amount": <amount in integer>
-      "currency": <currency 'maker_amount' is denominated in>
-      "payment": <payment method string code>
-      "bond_amount": <amount of satoshis in integer. Omit if n/a>
-    }
-    "taker_obligation": {
-      "amount": <amount in integer>
-      "currency": <currency 'taker_amount' is denominated in>
-      "payment": <payment method string code>
-      "bond_amount": <amount of satoshis in integer. Omit if n/a>
-    }
-    "market_oracle_used": <URL of market oracle used. Omit if n/a>
-    "pow_difficulty": <A new PoW difficulty for the rest of the trade if the Taker wishes to raise it. Omit if n/a>
-    "trade_engine_specifics": <trade engine specific arbitrary JSON>
+"message": {
+  "type": "n3xB-taker-offer"
+
+  "maker_obligation": {
+    "amount": <amount in integer>
+    "currency": <ISO 4217 currency code the 'maker_amount' is denominated in, as string>
+    "payment": <payment method string code>
+    "bond_amount": <amount of satoshis in integer. Omit if n/a>
   }
-  ...
+
+  "taker_obligation": {
+    "amount": <amount in integer>
+    "currency": <ISO 4217 currency code the 'maker_amount' is denominated in, as string>
+    "payment": <payment method string code>
+    "bond_amount": <amount of satoshis in integer. Omit if n/a>
+  }
+
+  "market_oracle_used": <URL of market oracle used. Omit if n/a>
+
+  "trade_engine_specifics: {
+    "type": <trade engine specifics identifier, as string>
+     ... trade engine specific JSON fields ...
+  }
+
+  "pow_difficulty": <A new PoW difficulty for the rest of the trade if the Taker wishes to raise it. Omit if n/a>
 }
 
 ```

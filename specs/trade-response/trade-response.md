@@ -5,6 +5,10 @@ This specifies the message format inside a n3xB Peer Message for `message_type =
 
 A Trade Response is in response to a Take Order Message to let the Taker know whether the take order have been accepted and the trade should proceed to the Trade Phase. If that's not possible, the Maker should provide best effort to let the Taker know the reason why.
 
+## Timeout
+
+Note that a Maker has a specific amount of time to accept or reject an offer from a Taker, otherwise the Taker shall time-out and assume failure. The Taker Trade Engine might want to consider marking the Order as bad to avoid repeated attempt in trying to take the Order. The specific time for this time-out needs to be Trade Engine dependent, but such a time-out shall be implemented at the n3xB protocol level.
+
 ## Reliability
 
 To improve robustness before entering into a Trade Phase, Maker should also ensure that at least several of the relays listed by the Taker's Relay List Metadata ([NIP-65](https://github.com/nostr-protocol/nips/blob/master/65.md)) is added as backup relays in the Maker's own relay list.
@@ -19,27 +23,26 @@ Trade Engine implementations should be careful to minimize the amount of persona
 
 ## Trade Response Message JSON
 ```
-{
-  ...
-  "message_type": "n3xB-trade-response"
-  "message": {
-    "trade_response_code": <response string code>
-    "reject_reason_code": <array of reason string codes. Omit if n/a>
-    "trade_engine_specifics: <trade engine specific arbitrary JSON>
+"message": {
+  "type": "n3xB-trade-response"
+  "trade_response": <response string code>
+  "reject_reason": <array of reason string codes. Omit if n/a>
+  "trade_engine_specifics: {
+    "type": <trade engine specifics identifier, as string>
+    ... trade engine specific JSON fields ...
   }
-  ...
 }
 ```
 
 
-| `trade_response_code` | description                                   |
-| --------------------- | --------------------------------------------- |
-| accepted              | Take order accepted. Proceed to Trading Phase |
-| rejected              | Take order rejected                           |
-| not_available         | Order no longer available                     |
+| `trade_response` | description                                   |
+| ---------------- | --------------------------------------------- |
+| accepted         | Take order accepted. Proceed to Trading Phase |
+| rejected         | Take order rejected                           |
+| not_available    | Order no longer available                     |
 
 
-| `reject_reason_code`       | description                                                     |
+| `reject_reason`       | description                                                     |
 | -------------------------- | --------------------------------------------------------------- |
 | pending                    | Order is pending another Taker                                  |
 | invalid-maker-currency     | Maker currency is invalid or not in the acceptable set          |

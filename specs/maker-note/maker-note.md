@@ -13,7 +13,7 @@ To ease the ability for clients to query without introducing specific logic to r
 
 ### Obligations
 
-All Maker obligation tags will be under tag name `#m`, and all Taker obligation tags will be under the tag name `#t`. When a specific is specified, the more generic tags shall also be included. Multiple obligations can be specified at the same time, including both Bitcoin and fiat (imagine someone wanting to sell USD for either Bitcoin or Euros, etc).
+All Maker obligation tags will be under tag name `#m`, and all Taker obligation tags will be under the tag name `#t`. When a specific is specified, the more generic tags shall also be included. Obligation is limited to the same kind and currency, as such each order can only specify up to a single trade pair at most. For example the Maker can create an order to buy Bitcoin with USD via multiple payment methods, but cannot use a single order to specify the desire to buy Bitcoin with both USD and EUR at the same time.
 
 At the n3xB level, only the trade intent at the user level will be conveyed. More specific parameters, like the Bitcoin Script Sig that might be used (P2PKH, P2WPKH, specific mutli-sig scheme, Lightning hold invoice vs regular invoice, etc), which are typically not what an end user specifies and are aware of, will be the responsibility of the trade engines.
 
@@ -24,14 +24,14 @@ Bitcoin obligation tag values are prefixed with `ob-bitcoin`. For now only 2 fur
 | `onchain`           | Bitcoin on-chain               |
 | `lightning`         | Bitcoin thru Lightning Network |
 
-Fiat obligation tag values are prefixed with `ob-fiat`. This is followed by the [ISO 4217 currency codes](https://www.iso.org/iso-4217-currency-codes.html), separated by a `-`, and then the payment method codes as found in Bisq's [PaymentMethod.java](https://github.com/bisq-network/bisq/blob/4f1f6898b8b02dd4ad67042fc814c9e05285f8a8/core/src/main/java/bisq/core/payment/payload/PaymentMethod.java), separated also by a `-`. Not all currency/payment method combinations might actually be usable in reality, but the protocol nevertheless support the ability for a client to express and query any combinations that can be specified.
+Fiat obligation tag values are prefixed with `ob-fiat`. This is followed by the [ISO 4217 currency codes](https://www.iso.org/iso-4217-currency-codes.html), separated by a `-`, and then the payment method codes as found in Bisq's [PaymentMethod.java](https://github.com/bisq-network/bisq/blob/4f1f6898b8b02dd4ad67042fc814c9e05285f8a8/core/src/main/java/bisq/core/payment/payload/PaymentMethod.java), separated also by a `-`. This is then converted all to lowercase for consistency. Not all currency/payment method combinations might actually be usable in reality, but the protocol nevertheless support the ability for a client to express and query any combinations that can be specified.
 
 | `ob-fiat` prefix examples | description                                           |
 | ------------------------- | ----------------------------------------------------- |
-| `EUR-REVOLUT`             | Euros thru Revolut                                    |
-| `USD-CASH_APP`            | US Dollars thru Cash App                              |
-| `CNY-ALI_PAY`             | Chinese Remembi thru AliPay                           |
-| `AUD-WECHAT_PAY`          | Australian Dollars thru WeChat Pay (probably invalid) |
+| `eur-revolut`             | Euros thru Revolut                                    |
+| `usd-cashapp`            | US Dollars thru Cash App                              |
+| `cny-alipay`             | Chinese Remembi thru AliPay                           |
+| `aud-wechatpay`          | Australian Dollars thru WeChat Pay (probably invalid) |
 
 `ob-custom` prefix shall be a catch all, where any additional appendix afterwards is trade engine specific. Further standardization effort might start including them into the n3xB specification if there are wide adoption and usage.
 
@@ -65,7 +65,7 @@ General trade details should be specified as tag values under tag name `#p`. Pri
 | `trusted-escrow`            | Trade is escrowed by a trusted entity        |
 | `trustless-escrowed`        | Trade is escrowed in a trustless manner      |
 | `trusted-arbitration`       | Trade is arbitrated by a trusted entity      |
-| `accepts-partial_take`      | Taking of partial amount is accepted         |
+| `accepts-partial-take`      | Taking of partial amount is accepted         |
 
 If `accepts-partial-take` is set, the Maker Order Note is to be replaced with the amounts adjusted instead of being deleted after a partial trade is considered [*locked*](/specs/architecture/architecture.md#locking-of-a-trade). Also see the later sections on [**Invalidation**](#invalidation), [**Updates**](#updates) and [**Expiry**](#expiry) for further details.
 
@@ -83,10 +83,9 @@ A trade can time-out after being taken if the trade have not completed within th
   ...
   "content": {
     "maker_obligation": {
-      "amount": <amount in integer>
+      "amount": <amount in integer. Sats if Bitcoin. Minor unit is not supported for fiat>
       "amount_min": <minimum amount in integer. Use in conjunction with tag `accepts-partial_take`. Omit if n/a>
     }
-
 
     "taker_obligation: {
       "limit_rate": <limit rate of taker currency / maker currency, in 64 bit double. Omit if n/a>
@@ -100,7 +99,11 @@ A trade can time-out after being taken if the trade have not completed within th
       "trade_timeout": <minutes trade needs to be completed by, used in conjunction with tag `trade-times-out`, in integer. Omit if n/a>
     }
 
-    "trade_engine_specifics: <trade engine specific arbitrary JSON>
+    "trade_engine_specifics: {
+      "type": <trade engine specifics identifier, as string>
+      ... trade engine specific JSON fields ...
+    }
+
     "pow_difficulty": <minimum difficulty for a NIP-13 note to take the order, in integer>
   }
   ...
