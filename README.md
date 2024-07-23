@@ -1,6 +1,6 @@
 # n3xB
 
-_Naive Nostr Nym Exchange for Bitcoin_
+_naive nostr nym Exchange for Bitcoin_
 
 n3xB (pronounced _nexbie_) is a layer 2 open protocol inspired by, and runs on top of Nostr. n3xB aspires to become a standard language for making P2P trade orders, how to negotiate between maker and takers, and on how to take these orders. Allowing different Bitcoin P2P solutions to interoperate, enabling separation of concerns, resulting in a global order book of shared deep liquidity that is not wall-gardened by any one particular solution.
 
