@@ -65,4 +65,4 @@ Maximize censorship resistance
 
 ## Feedback & Questions
 
-The n3xB project is an early and mostly speculative proposal. The n3xB protocol specificaiton, along with any derivative implementations are experiments in hope to better understand what needs there are in the Bitcoin ecosystem, along with what solutions might be wanted by the Bitcoin community. As such, any feedback or questions would be very valuable. Feel free to raise an Issue or start a Discussion here in Github. Or visit the [n3xB Discord](https://discord.com/invite/5CFBMF38Nh) to start a conversation!
+The n3xB project is an early and mostly speculative proposal. The n3xB protocol specification, along with any derivative implementations are experiments in hope to better understand what needs there are in the Bitcoin ecosystem, along with what solutions might be wanted by the Bitcoin community. As such, any feedback or questions would be very valuable. Feel free to raise an Issue or start a Discussion here in Github. Or visit the [n3xB Discord](https://discord.com/invite/5CFBMF38Nh) to start a conversation!
